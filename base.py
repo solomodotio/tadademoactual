@@ -4,7 +4,8 @@ from kaupter_app.transactions import transaction_views
 import views
 
 # create the application object
-app = Flask(__name__)
+app = Flask(__name__, instance_relative_config=True)
+app.config.from_pyfile('kaupter.cfg')
 
 
 app.register_blueprint(transaction_views.transactions, url_prefix='/api/v1.0/transactions')
@@ -21,9 +22,17 @@ def respond(err, res):
 
     return jsonify(response)
 
+@app.errorhandler(401)
+def not_authorized(error):
+    message = "not authorized"
+    err = dict({"message": message, "status": 401})
+    #app.logger.error(message)
+    return respond(err, None)
+
 @app.errorhandler(Exception)
 def unhandled_exception(error):
-    print('here here {}'.format(error))
+    if error == 'abort':
+        print(error)
     message = "Unhandled Exception on page %s: %s" % (request.path, error)
     err = dict({"message": message, "status": 400})
     #app.logger.error(message)
