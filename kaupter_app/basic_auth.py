@@ -11,6 +11,4 @@ def require_appkey(view_function):
             return view_function(*args, **kwargs)
         else:
    		    return 'not authorized to use this service', 401
-        	#return not_authorized("error")
-            #abort(401)
     return decorated_function
