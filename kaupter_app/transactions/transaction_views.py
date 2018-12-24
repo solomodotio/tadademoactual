@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-#from kaupter_app.transactions import transaction_api 
+from kaupter_app.transactions import transaction_api 
 from kaupter_app.basic_auth import require_appkey
 from flask import current_app as app
 
@@ -15,7 +15,11 @@ def index():
 def home():
     return "Solomo API v{}".format(app.config['VERSION'])
 
-
+@transactions.route('/fieldmapexample', methods=['POST','GET'])
+@require_appkey
+def fieldmap():
+    return transaction_api.example_field_map('example_field_map.sdl')
+    
 def format_response(payload):
     if payload == "[]": 
         return respond({ValueError("No match found"), 204}, None)
