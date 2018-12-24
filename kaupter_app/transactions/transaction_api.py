@@ -1,4 +1,12 @@
-import simplejson as json
+import os
+from json import loads, dumps
+from flask import request, current_app as app
+from SolomoLib import Util as util
+
+
+def example_field_map(fieldmap):
+    return dumps(util.load_configuration(fieldmap))
+
 #from adapters.utils import db_utils
         
 """def get_active_count():
