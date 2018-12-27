@@ -8,6 +8,13 @@ transactions = Blueprint('transactions', __name__)
 @transactions.route('/about', methods=['POST','GET'])
 @require_appkey
 def index():
+    print(request.text)
+    return "Solomo Platform v{}.  Created by Solomo 2018".format(app.config['VERSION'])
+
+@transactions.route('/accounts', methods=['POST','GET'])
+@require_appkey
+def accounts():
+    # print(request.text)
     return "Solomo Platform v{}.  Created by Solomo 2018".format(app.config['VERSION'])
 
 @transactions.route('/', methods=['POST','GET'])
@@ -20,6 +27,13 @@ def home():
 def fieldmap():
     return transaction_api.example_field_map('example_field_map.sdl')
     
+@transactions.route('/account', methods=['POST','GET'])
+@require_appkey
+def account():
+    print('here')
+    #crowdhub_api.process_account(request.text)
+    return "Solomo API v{}".format(app.config['VERSION'])
+
 def format_response(payload):
     if payload == "[]": 
         return respond({ValueError("No match found"), 204}, None)
