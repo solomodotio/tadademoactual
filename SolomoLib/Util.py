@@ -34,3 +34,39 @@ def solomo_login():
         sandbox=app.config['SOLOMO_SF_SANDBOX'])
 
     return sf_object
+
+def process_related(mapfile, data, lu, exid, objectmap):
+
+    #objects holds the map of the nested collections to the sobjects in Salesforce
+    objects = util.load_configuration(objectmap)
+
+    #the mapfile is the name of the file holding the fields to be mapped
+    fieldmap = util.load_configuration(mapfile)
+
+    #dictionary and list that hold the nested collections
+    sobject = {}
+    sobjects = []
+
+    """first, determine if there's a corresponding key value.  not all 
+       nest collections have a key value, such as when there is only one
+       text value"""
+    if fieldmap is not None:
+        #iterate through each record in the collection
+        for record in data:
+            if exid is not None:
+                sobject[lu.split("\\:")[0]] = dict([(lu.split("\\:")[1], exid)])
+                #sobject[lu] = exid
+            for origfield in fieldmap.keys():
+                sobject[fieldmap[origfield]] = record[origfield]
+
+            sobjects.append(sobject)
+            sobject = {}
+
+    if len(fieldmap)==0:
+        for record in data:
+            if exid is not None:
+                sobject[lu] = exid
+            sobject['Name'] = record
+
+
+    return sobjects
