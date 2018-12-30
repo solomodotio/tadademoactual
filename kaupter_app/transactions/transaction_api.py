@@ -1,11 +1,24 @@
 import os
 from json import loads, dumps
 from flask import request, current_app as app
-from SolomoLib import Util as util
+from SolomoLib import Util as util, support
 
+#fieldmap = util.load_configuration('./account/accountfieldmap.sdl')
 
 def example_field_map(fieldmap):
     return dumps(util.load_configuration(fieldmap))
+
+def create_case(data):
+
+    support_ticket = {}
+    support_ticket['Status__c']='New'
+    support_ticket['Priority__c']='Medium'
+    support_ticket['Case_Origin__c']='Integration'
+    support_ticket['RecordTypeId']=app.config['SOLOMO_SUPPORT_RTYPE']
+
+    support_ticket['Subject__c']=data['Subject__c']
+    support_ticket['Description__c']=data['Description__c']
+    support.create_support_ticket(support_ticket)
 
 #from adapters.utils import db_utils
         

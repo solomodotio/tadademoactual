@@ -30,9 +30,17 @@ def fieldmap():
 @transactions.route('/account', methods=['POST','GET'])
 @require_appkey
 def account():
-    print('here')
-    #crowdhub_api.process_account(request.text)
     return "Solomo API v{}".format(app.config['VERSION'])
+
+@transactions.route('/testsupport', methods=['POST','GET'])
+@require_appkey
+def test_support():
+    support_ticket = {}
+    support_ticket['Subject__c']='this is a test'
+    support_ticket['Description__c']='hello world'
+    transaction_api.create_case(support_ticket)
+    return "OK", 200
+
 
 def format_response(payload):
     if payload == "[]": 
