@@ -1,0 +1,7 @@
+README.md
+setup.cfg
+setup.py
+Kaupter.egg-info/PKG-INFO
+Kaupter.egg-info/SOURCES.txt
+Kaupter.egg-info/dependency_links.txt
+Kaupter.egg-info/top_level.txt

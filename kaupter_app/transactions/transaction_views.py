@@ -8,6 +8,13 @@ transactions = Blueprint('transactions', __name__)
 @transactions.route('/about', methods=['POST','GET'])
 @require_appkey
 def index():
+    print(request.text)
+    return "Solomo Platform v{}.  Created by Solomo 2018".format(app.config['VERSION'])
+
+@transactions.route('/accounts', methods=['POST','GET'])
+@require_appkey
+def accounts():
+    # print(request.text)
     return "Solomo Platform v{}.  Created by Solomo 2018".format(app.config['VERSION'])
 
 @transactions.route('/', methods=['POST','GET'])
@@ -20,6 +27,21 @@ def home():
 def fieldmap():
     return transaction_api.example_field_map('example_field_map.sdl')
     
+@transactions.route('/account', methods=['POST','GET'])
+@require_appkey
+def account():
+    return "Solomo API v{}".format(app.config['VERSION'])
+
+@transactions.route('/testsupport', methods=['POST','GET'])
+@require_appkey
+def test_support():
+    support_ticket = {}
+    support_ticket['Subject__c']='this is a test'
+    support_ticket['Description__c']='hello world'
+    transaction_api.create_case(support_ticket)
+    return "OK", 200
+
+
 def format_response(payload):
     if payload == "[]": 
         return respond({ValueError("No match found"), 204}, None)
