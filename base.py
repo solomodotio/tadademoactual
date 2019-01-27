@@ -1,15 +1,23 @@
-from flask import Flask, render_template, request, abort, jsonify, current_app as app
+from flask import Flask, Blueprint, render_template, request, redirect, url_for, g, session, abort, jsonify, current_app as app
 from kaupter_app.basic_auth import require_appkey
+import requests
+from flask_oauth import OAuth
 from kaupter_app.transactions import transaction_views
+from apps.qbo import qbo_app
 import views
+
+SECRET_KEY = 'dev key'
+DEBUG = True
 
 # create the application object
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_pyfile('kaupter.cfg')
+app.debug = DEBUG
+app.secret_key = SECRET_KEY
 
 
 app.register_blueprint(transaction_views.transactions, url_prefix='/api/v1.0/transactions')
-
+app.register_blueprint(qbo_app.qbo, url_prefix='/qbo')
 
 def respond(err, res):
     response = {
