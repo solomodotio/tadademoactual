@@ -3,7 +3,7 @@ Flask-OAuth==0.12
 Flask-OAuthlib==0.9.5
 gunicorn==19.9.0
 httplib2==0.12.0
-Jinja2==2.10
+Jinja2==2.11.3
 MarkupSafe==1.1.0
 openpyxl==2.4.4
 pycparser==2.19
